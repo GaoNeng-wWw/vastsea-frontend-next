@@ -1,20 +1,75 @@
-| [PROJECT](团队协作文档/) DOCS |
-| :---------------------------- |
+# Nuxt Minimal Starter
 
-[项目结构](团队协作文档/项目结构.md)
+Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
 
----
+## Setup
 
-| [MOBAI](https://github.com/Artist-MOBAI) PHILOSOPHY |
-| :-------------------------------------------------- |
+Make sure to install dependencies:
 
-write no unnecessary code
+```bash
+# npm
+npm install
 
-make no unnecessary design
+# pnpm
+pnpm install
 
-| [MOBAI](https://github.com/Artist-MOBAI) PRINCIPLE |
-| :------------------------------------------------- |
+# yarn
+yarn install
 
-produce most exceptional work
+# bun
+bun install
+```
 
-produce most exceptional art
+## Development Server
+
+Start the development server on `http://localhost:3000`:
+
+```bash
+# npm
+npm run dev
+
+# pnpm
+pnpm dev
+
+# yarn
+yarn dev
+
+# bun
+bun run dev
+```
+
+## Production
+
+Build the application for production:
+
+```bash
+# npm
+npm run build
+
+# pnpm
+pnpm build
+
+# yarn
+yarn build
+
+# bun
+bun run build
+```
+
+Locally preview production build:
+
+```bash
+# npm
+npm run preview
+
+# pnpm
+pnpm preview
+
+# yarn
+yarn preview
+
+# bun
+bun run preview
+```
+
+Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.

@@ -1,16 +1,45 @@
-import { dirname } from "path";
-import { fileURLToPath } from "url";
-import { FlatCompat } from "@eslint/eslintrc";
+import antfu from '@antfu/eslint-config';
+import stylistic from '@stylistic/eslint-plugin';
+import tailwind from 'eslint-plugin-tailwindcss';
+import withNuxt from './.nuxt/eslint.config.mjs';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-});
-
-const eslintConfig = [
-  ...compat.extends("next/core-web-vitals", "next/typescript"),
-];
-
-export default eslintConfig;
+export default withNuxt(
+  antfu({
+    javascript: {
+      overrides: {
+        'curly': 'off',
+        '@stylistic/brace-style': ['warn', 'stroustrup'],
+      },
+    },
+    vue: {
+      overrides: {
+        'vue/component-name-in-template-casing': ['warn', 'kebab-case'],
+      },
+    },
+    stylistic: {
+      semi: true,
+    },
+  }),
+  {
+    name: 'tailwindcss/rules',
+    plugins: {
+      tailwindcss: tailwind,
+    },
+    rules: {
+      'tailwindcss/classnames-order': 'error',
+      'tailwindcss/no-contradicting-classname': 'error',
+      'tailwindcss/enforces-shorthand': 'error',
+      'tailwindcss/no-custom-classname': 'off',
+      'tailwindcss/no-unnecessary-arbitrary-value': 'off',
+    },
+  },
+  {
+    plugins: {
+      '@stylistic': stylistic,
+    },
+    rules: {
+      'curly': 'off',
+      '@stylistic/brace-style': ['warn', '1tbs'],
+    },
+  },
+);
