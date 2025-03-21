@@ -3,7 +3,8 @@
 @tailwind utilities;
 
 :root {
-  --primary-500: 212, 78%, 53%, 1
+  --primary-500: 212, 78%, 53%, 1;
+  --default-200: 237,237,237, 1;
 }
 
 html,body {
