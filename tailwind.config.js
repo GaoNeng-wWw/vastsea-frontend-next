@@ -11,7 +11,13 @@ module.exports = {
         },
         default: {
           200: 'rgba(var(--default-200))',
+          700: 'rgba(var(--default-700))',
         },
+      },
+      fontFamily: {
+        PingFang: ['PingFang'],
+        aliShuhei: ['AliShuHeiTi'],
+        aliPuHui: ['AlibabaPuHui'],
       },
     },
   },

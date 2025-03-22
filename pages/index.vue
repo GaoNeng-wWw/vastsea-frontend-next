@@ -1,5 +1,5 @@
 <template>
   <div class="size-full">
-    todo
+    <pages-introudction />
   </div>
 </template>
