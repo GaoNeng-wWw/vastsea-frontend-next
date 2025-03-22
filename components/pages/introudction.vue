@@ -38,7 +38,7 @@
       <client-only>
         <ui-underline-bar v-slot="{ onMouseEnter, setActivePos }" class="justify-end">
           <ui-underline-bar-item
-            to="#introduction-railway"
+            to="/#introduction-railway"
             class="mr-[19px]"
             active-class="text-[#FF5733] active"
             @mouse-enter="() => onMouseEnter('/#introduction-railway')"

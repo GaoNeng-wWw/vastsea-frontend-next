@@ -11,7 +11,7 @@ const el = useTemplateRef('el');
 const ctx = inject<Context>(KEY);
 const route = useRoute();
 
-const isActive = computed(() => route.path.endsWith(props.to));
+const isActive = computed(() => route.path.endsWith(props.to) || route.fullPath.endsWith(props.to));
 
 onMounted(() => {
   if (!el.value) {
