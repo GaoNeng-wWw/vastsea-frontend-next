@@ -38,18 +38,18 @@
       <client-only>
         <ui-underline-bar v-slot="{ onMouseEnter, setActivePos }" class="justify-end">
           <ui-underline-bar-item
-            to="/#introduction-railway"
+            to="/"
             class="mr-[19px]"
-            active-class="text-[#FF5733] active"
-            @mouse-enter="() => onMouseEnter('/#introduction-railway')"
+            active-class="text-[#FF5733]"
+            @mouse-enter="() => onMouseEnter('/#')"
             @mouse-leave="setActivePos"
           >
             轨道交通
           </ui-underline-bar-item>
-          <ui-underline-bar-item to="/#urban-construction" class="mr-[21px]" @mouse-enter="() => onMouseEnter('/#urban-construction')" @mouse-leave="setActivePos">
+          <ui-underline-bar-item active-class="text-[#FF5733]" to="/#urban-construction" class="mr-[21px]" @mouse-enter="() => onMouseEnter('/#urban-construction')" @mouse-leave="setActivePos">
             城市建设
           </ui-underline-bar-item>
-          <ui-underline-bar-item to="/#road-traffic" @mouse-enter="() => onMouseEnter('/#road-traffic')" @mouse-leave="setActivePos">
+          <ui-underline-bar-item active-class="text-[#FF5733]" to="/#road-traffic" @mouse-enter="() => onMouseEnter('/#road-traffic')" @mouse-leave="setActivePos">
             路面交通
           </ui-underline-bar-item>
           <ui-underline-bar-undefline class="-bottom-1 bg-[#ff5733]" />

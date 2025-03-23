@@ -15,7 +15,7 @@ const router = useRouter();
 const el = useTemplateRef('el');
 const ctx = inject<Context>(KEY);
 
-const isActive = computed(() => router.currentRoute.value.fullPath.endsWith(props.to) || router.currentRoute.value.path.endsWith(props.to));
+const isActive = computed(() => router.currentRoute.value.fullPath === props.to);
 
 onMounted(() => {
   if (!el.value) {
@@ -25,7 +25,6 @@ onMounted(() => {
     return;
   }
   ctx.map.set(props.to, el.value);
-  ctx.map.set(`/${props.to}`, el.value);
 });
 </script>
 

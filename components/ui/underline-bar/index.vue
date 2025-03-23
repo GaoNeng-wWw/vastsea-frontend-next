@@ -39,9 +39,7 @@ const onMouseEnter = (path: string) => {
 };
 const setActivePos = () => {
   onMouseEnter(router.currentRoute.value.fullPath);
-  if (!pos.width) {
-    onMouseEnter(router.currentRoute.value.path);
-  }
+  onMouseEnter(router.currentRoute.value.path);
 };
 
 onMounted(() => {
