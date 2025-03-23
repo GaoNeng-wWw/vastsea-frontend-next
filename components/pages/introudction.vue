@@ -1,5 +1,30 @@
+<script setup lang="ts">
+import { vElementVisibility } from '@vueuse/components';
+import RailwayTraffic from '../introductions/railway-traffic.vue';
+import RoadTraffic from '../introductions/road-traffic.vue';
+import UrbanConstructionCopy from '../introductions/urban-construction copy.vue';
+
+const comps: Record<string, any> = {
+  '/#road-traffic': RoadTraffic,
+  '/#rail-traffic': RailwayTraffic,
+  '/': RailwayTraffic,
+  '/#urban-construction': UrbanConstructionCopy,
+};
+const titles: Record<string, string> = {
+  '/': '轨道交通',
+  '/#rail-traffic': '轨道交通',
+  '/#urban-construction': '城市建设',
+  '/#road-traffic': '道路交通',
+};
+const router = useRouter();
+const title = computed(() => titles[router.currentRoute.value.fullPath] ? titles[router.currentRoute.value.fullPath] : '');
+useHead({
+  title,
+});
+</script>
+
 <template>
-  <div class="flex size-full flex-col overflow-hidden bg-[#F8F9FB] ">
+  <div v-element-visibility="() => !$route.hash ? $router.replace({ hash: '#rail-traffic' }) : ''" class="flex size-full flex-col overflow-hidden bg-[#F8F9FB]">
     <div class="relative flex size-full">
       <div class="relative top-[132px] h-[746px] w-[1179px] shrink-0">
         <nuxt-img src="/images/introduction.webp" width="1179" height="660" class="absolute -left-12 z-20" />
@@ -10,24 +35,7 @@
         </div>
       </div>
       <div class="relative w-full">
-        <div class="absolute top-[204px] w-full pr-[127px]">
-          <div class="ml-auto mr-0 w-fit text-right">
-            <h2 class="font-aliShuhei text-7xl  font-normal text-default-700">
-              轨道交通
-            </h2>
-            <p class="text-5xl font-bold leading-[86.4px] tracking-[10px] text-default-700">
-              rail traffic
-            </p>
-            <div class="line" />
-          </div>
-          <div class="text-right font-sans text-[32px] font-extralight leading-[44.8px] tracking-[5px]">
-            <p>
-              以对轨道交通的热忱,我们志趣相投，
-            </p>
-            <p>旨在Minecraft中还原更仿真、</p>
-            <p>更精致的轨道交通网络。</p>
-          </div>
-        </div>
+        <component :is="comps[$route.fullPath]" />
       </div>
       <nuxt-img src="/images/blue-points.webp" width="371" height="718.81px" class="absolute -right-[134px] bottom-[103px]" />
     </div>
@@ -38,10 +46,10 @@
       <client-only>
         <ui-underline-bar v-slot="{ onMouseEnter, setActivePos }" class="justify-end">
           <ui-underline-bar-item
-            to="/"
+            to="/#rail-traffic"
             class="mr-[19px]"
             active-class="text-[#FF5733]"
-            @mouse-enter="() => onMouseEnter('/#')"
+            @mouse-enter="() => onMouseEnter('/#rail-traffic')"
             @mouse-leave="setActivePos"
           >
             轨道交通
@@ -56,6 +64,7 @@
         </ui-underline-bar>
       </client-only>
     </div>
+    <ui-scroll-down-tips class="fixed bottom-[37px] right-[31px] gap-[15px]" />
   </div>
 </template>
 
