@@ -54,6 +54,7 @@
     "enter-from-class",
     "enter-to-class",
     "leave-from-class",
-    "leave-to-class"
+    "leave-to-class",
+    "active-class"
   ]
 }

@@ -9,11 +9,13 @@ export default withNuxt(
       overrides: {
         'curly': 'off',
         '@stylistic/brace-style': ['warn', 'stroustrup'],
+        'antfu/top-level-function': 'off',
       },
     },
     vue: {
       overrides: {
         'vue/component-name-in-template-casing': ['warn', 'kebab-case'],
+        'antfu/top-level-function': 'off',
       },
     },
     stylistic: {

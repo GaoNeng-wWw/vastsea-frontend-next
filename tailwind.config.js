@@ -5,12 +5,21 @@ module.exports = {
   prefix: '',
   theme: {
     extend: {
-      colors:{
+      colors: {
         primary: {
-          500: 'hsla(var(--primary-500))'
-        }
-      }
+          500: 'hsla(var(--primary-500))',
+        },
+        default: {
+          200: 'rgba(var(--default-200))',
+          700: 'rgba(var(--default-700))',
+        },
+      },
+      fontFamily: {
+        PingFang: ['PingFang'],
+        aliShuhei: ['AliShuHeiTi'],
+        aliPuHui: ['AlibabaPuHui'],
+      },
     },
   },
   plugins: [],
-}
+};
