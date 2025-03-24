@@ -24,25 +24,26 @@ useHead({
 </script>
 
 <template>
-  <div v-element-visibility="() => !$route.hash ? $router.replace({ hash: '#rail-traffic' }) : ''" class="flex size-full flex-col overflow-hidden bg-[#F8F9FB]">
-    <div class="relative flex size-full">
-      <div class="relative top-[132px] h-[746px] w-[1179px] shrink-0">
-        <nuxt-img src="/images/introduction.webp" width="1179" height="660" class="absolute -left-12 z-20" />
-        <nuxt-img src="/images/introduction-train.webp" width="2816" height="471" class="absolute left-[-555px] top-[284px] z-30 max-w-none" />
-        <div class="absolute bottom-0 z-10 h-[261px] w-[1128px]">
-          <nuxt-img src="/images/train-line-1.webp" width="1058" height="261" class="absolute left-0" />
-          <nuxt-img src="/images/train-line-2.webp" width="92" height="86" class="absolute bottom-0 right-0" />
+  <div
+    v-element-visibility="() => !$route.hash ? $router.replace({ hash: '#rail-traffic' }) : ''"
+    class="introduction flex size-full flex-col overflow-hidden bg-[#F8F9FB]"
+  >
+    <div class="introduction__wrapper flex size-full">
+      <div class="introduction__wrapper__image relative shrink-0">
+        <div class="introduction__wrapper__image__bg">
+          <nuxt-img src="/images/introduction-train-6.png" class="introduction__wrapper__image__bg__train" />
+        </div>
+        <div class="absolute bottom-0 z-10 h-[7.962962962962962962962962962963vh] w-[58.75vw]">
+          <nuxt-img src="/images/train-line-1.webp" width="1058" class="absolute bottom-0 left-0 h-[7.962962962962962962962962962963vh] w-[55.104166666666666666666666666667vw]" />
+          <nuxt-img src="/images/train-line-2.webp" width="92" height="86" class="absolute bottom-0 right-0 h-[7.962962962962962962962962962963vh] w-[4.7916666666666666666666666666667vw]" />
         </div>
       </div>
       <div class="relative w-full">
         <component :is="comps[$route.fullPath]" />
       </div>
-      <nuxt-img src="/images/blue-points.webp" width="371" height="718.81px" class="absolute -right-[134px] bottom-[103px]" />
+      <nuxt-img src="/images/blue-points.webp" width="371" height="718.81px" class="fixed -right-[6.979166667vw] bottom-[8.813888vh] h-[66.556481vh] w-[19.32291667vw] " />
     </div>
-    <nuxt-link class=" absolute bottom-[439px] right-[104px] font-aliPuHui text-4xl leading-none text-primary-500">
-      了解更多
-    </nuxt-link>
-    <div class="-ml-12 mb-[111px] flex w-[1179px] justify-end font-aliShuhei text-3xl">
+    <div class="-ml-12 mb-[10.277777777777777777777777777778vh] flex w-[58.75vw] justify-end font-aliShuhei text-3xl">
       <client-only>
         <ui-underline-bar v-slot="{ onMouseEnter, setActivePos }" class="justify-end">
           <ui-underline-bar-item
@@ -64,19 +65,38 @@ useHead({
         </ui-underline-bar>
       </client-only>
     </div>
-    <ui-scroll-down-tips class="fixed bottom-[37px] right-[31px] gap-[15px]" />
+    <ui-scroll-down-tips class="fixed bottom-[3.4259259259259259259259259259259vh] right-[1.6145833333vw] gap-[15px]" />
   </div>
 </template>
 
-<style scoped>
-.line {
-  position: absolute;
-  right: 0;
-  top: 108px;
-  width: 131.05px;
-  height: 0px;
-  opacity: 1;
-  transform: rotate(-41.6deg);
-  border: 1px solid rgba(0, 0, 0, 1);
+<style scoped lang="less">
+.introduction {
+  max-width: 1920px;
+  margin: 0 auto;
+  &__wrapper__image {
+    flex: 1;
+    /* 1323 */
+    width: 68.90625vw;
+    /* 746px */
+    height: 68.703703703703703703703703703704vh;
+    /* 132px */
+    margin-top: 12.22222vh;
+    &__bg{
+      position: relative;
+      // 1128px
+      width: 58.75vw;
+      // 660px
+      height: 61.111111111111111111111111111111vh;
+      background-image: url("/images/introduction.webp");
+      background-repeat: no-repeat;
+      background-size:cover;
+      &__train{
+        position: fixed;
+        width: 146.66666666666666666666666666667%;
+        height: 43.611111111111111111111111111111%;
+        top: 38.518518518518518518518518518519vh;
+      }
+    }
+  }
 }
 </style>
