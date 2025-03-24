@@ -5,9 +5,9 @@ import RoadTraffic from '../introductions/road-traffic.vue';
 import UrbanConstructionCopy from '../introductions/urban-construction copy.vue';
 
 const comps: Record<string, any> = {
+  '/': RailwayTraffic,
   '/#road-traffic': RoadTraffic,
   '/#rail-traffic': RailwayTraffic,
-  '/': RailwayTraffic,
   '/#urban-construction': UrbanConstructionCopy,
 };
 const titles: Record<string, string> = {
@@ -26,7 +26,7 @@ useHead({
 <template>
   <div
     v-element-visibility="() => !$route.hash ? $router.replace({ hash: '#rail-traffic' }) : ''"
-    class="introduction flex size-full flex-col overflow-hidden bg-[#F8F9FB]"
+    class="introduction flex h-screen w-full flex-col overflow-hidden bg-[#F8F9FB]"
   >
     <div class="introduction__wrapper flex size-full">
       <div class="introduction__wrapper__image relative shrink-0">
@@ -41,11 +41,11 @@ useHead({
       <div class="relative w-full">
         <component :is="comps[$route.fullPath]" />
       </div>
-      <nuxt-img src="/images/blue-points.webp" width="371" height="718.81px" class="fixed -right-[6.979166667vw] bottom-[8.813888vh] h-[66.556481vh] w-[19.32291667vw] " />
+      <nuxt-img src="/images/blue-points.webp" width="371" height="718.81px" class="absolute -right-[6.979166667vw] bottom-[8.813888vh] h-[66.556481vh] w-[19.32291667vw] " />
     </div>
     <div class="-ml-12 mb-[10.277777777777777777777777777778vh] flex w-[58.75vw] justify-end font-aliShuhei text-3xl">
       <client-only>
-        <ui-underline-bar v-slot="{ onMouseEnter, setActivePos }" class="justify-end">
+        <ui-underline-bar v-slot="{ onMouseEnter, setActivePos }" hash-match class="justify-end">
           <ui-underline-bar-item
             to="/#rail-traffic"
             class="mr-[19px]"
@@ -71,9 +71,8 @@ useHead({
 
 <style scoped lang="less">
 .introduction {
-  max-width: 1920px;
-  margin: 0 auto;
   &__wrapper__image {
+    position: absolute;
     flex: 1;
     /* 1323 */
     width: 68.90625vw;
@@ -91,10 +90,16 @@ useHead({
       background-repeat: no-repeat;
       background-size:cover;
       &__train{
-        position: fixed;
-        width: 146.66666666666666666666666666667%;
-        height: 43.611111111111111111111111111111%;
-        top: 38.518518518518518518518518518519vh;
+        position: absolute;
+        // width: 2816px;
+        width: 146.66666666666666666666666666667vw;
+        // height: 471px;
+        height: 43.611111111111111111111111111111vh;
+        // left: -555px;
+        left: -28.90625vw;
+        bottom: -9.259259vh;
+        z-index: 10;
+        max-width: unset;
       }
     }
   }

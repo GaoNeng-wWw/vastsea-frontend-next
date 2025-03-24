@@ -11,11 +11,10 @@ defineEmits<{
   mouseEnter: [MouseEvent];
   mouseLeave: [MouseEvent];
 }>();
-const router = useRouter();
 const el = useTemplateRef('el');
 const ctx = inject<Context>(KEY);
 
-const isActive = computed(() => router.currentRoute.value.fullPath === props.to);
+const isActive = computed(() => ctx?.activeLink === props.to);
 
 onMounted(() => {
   if (!el.value) {

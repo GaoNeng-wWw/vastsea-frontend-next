@@ -1,3 +1,3 @@
 <template>
-  <div class="size-full bg-red-500" />
+  <div class="size-full h-screen bg-red-500" />
 </template>

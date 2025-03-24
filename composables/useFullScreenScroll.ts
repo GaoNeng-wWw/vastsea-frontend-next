@@ -8,7 +8,7 @@ export interface UseFullScreenScroll {
 }
 export type Behavior = (distance: number, target: Window) => void;
 export const scrollBehavior: Behavior = (distance: number, target: Window) => {
-  const top = window.innerHeight;
+  const top = window.outerHeight;
   if (distance < 0) {
     target.scrollTo({ top: -top, behavior: 'smooth' });
   } else {

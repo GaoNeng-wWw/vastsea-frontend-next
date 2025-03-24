@@ -4,15 +4,17 @@ import { KEY, UNDERLINE_KEY } from './constant';
 
 const props = defineProps<{
   class?: string;
+  hashMatch?: boolean;
 }>();
 
 const pos = reactive({
   left: 0,
   width: 0,
 });
-const ctx: Context = {
+const ctx: Context = reactive({
   map: new Map(),
-};
+  activeLink: '/',
+});
 const router = useRouter();
 provide(KEY, ctx);
 provide(UNDERLINE_KEY, pos);
@@ -33,15 +35,17 @@ const onMouseEnter = (path: string) => {
   if (!link) {
     return;
   }
+  ctx.activeLink = link;
   const { width, left } = getInfoByLink(link);
   pos.left = left;
   pos.width = width;
 };
 const setActivePos = () => {
-  onMouseEnter(router.currentRoute.value.fullPath);
-  if (!pos.width) {
-    onMouseEnter(router.currentRoute.value.path);
+  if (props.hashMatch) {
+    onMouseEnter(router.currentRoute.value.fullPath);
+    return;
   }
+  onMouseEnter(router.currentRoute.value.path);
 };
 
 onMounted(() => {
