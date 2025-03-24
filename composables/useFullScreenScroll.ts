@@ -2,8 +2,9 @@ import { noop } from '@vueuse/core';
 
 export interface UseFullScreenScroll {
   target: Window;
-  distance?: number;
-  scroll: Behavior;
+  distance: number;
+  scroll?: Behavior;
+  client?: boolean;
 }
 export type Behavior = (distance: number, target: Window) => void;
 export const scrollBehavior: Behavior = (distance: number, target: Window) => {
@@ -15,12 +16,12 @@ export const scrollBehavior: Behavior = (distance: number, target: Window) => {
   }
 };
 
-export function useFullScreenScroll({ target, distance = 30, scroll = scrollBehavior }: UseFullScreenScroll) {
+export function useFullScreenScroll({ target, distance = 30, scroll = scrollBehavior, client = import.meta.client }: UseFullScreenScroll) {
   const touchInfo = reactive({
     start: { x: 0, y: 0 },
     end: { x: 0, y: 0 },
   });
-  if (!import.meta.client) {
+  if (!client) {
     return { stop: noop, pause: noop, resume: noop };
   }
   const allow = ref(true);
