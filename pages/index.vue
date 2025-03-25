@@ -4,7 +4,7 @@ useFullScreenScroll({ target: window, distance: 30, scroll: scrollBehavior });
 
 <template>
   <div class="size-full">
-    <pages-introudction />
+    <!-- <pages-introudction /> -->
     <pages-projects />
   </div>
 </template>
