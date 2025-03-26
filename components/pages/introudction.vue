@@ -65,7 +65,7 @@ useHead({
         </ui-underline-bar>
       </client-only>
     </div>
-    <ui-scroll-down-tips class="fixed bottom-[3.4259259259259259259259259259259vh] right-[1.6145833333vw] gap-[15px]" />
+    <ui-scroll-down-tips class="fixed bottom-[3.4259259259259259259259259259259vh] right-[1.6145833333vw] z-50 gap-[15px]" />
   </div>
 </template>
 

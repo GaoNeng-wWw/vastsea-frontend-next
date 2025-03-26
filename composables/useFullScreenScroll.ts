@@ -11,7 +11,8 @@ export const scrollBehavior: Behavior = (distance: number, target: Window) => {
   const top = window.outerHeight;
   if (distance < 0) {
     target.scrollTo({ top: -top, behavior: 'smooth' });
-  } else {
+  }
+ else {
     target.scrollTo({ top, behavior: 'smooth' });
   }
 };
@@ -22,7 +23,7 @@ export function useFullScreenScroll({ target, distance = 30, scroll = scrollBeha
     end: { x: 0, y: 0 },
   });
   if (!client) {
-    return { stop: noop, pause: noop, resume: noop };
+    return { stop: noop, pause: noop, resume: noop, start: noop };
   }
   const allow = ref(true);
   let stopController = new AbortController();
@@ -30,53 +31,64 @@ export function useFullScreenScroll({ target, distance = 30, scroll = scrollBeha
     stopController.abort();
     stopController = new AbortController();
   };
-  const resume = () => {
-    allow.value = true;
-  };
-  const pause = () => allow.value = false;
-  target.addEventListener('touchstart', (ev) => {
-    ev.preventDefault();
-    if (!ev.targetTouches.length) {
-      return;
-    }
-    const [point] = ev.targetTouches;
-    touchInfo.start.x = point.pageX;
-    touchInfo.start.y = point.pageY;
-  }, { signal: stopController.signal, passive: false });
-  target.addEventListener('touchend', (ev) => {
-    ev.preventDefault();
-    if (!ev.targetTouches.length) {
-      return;
-    }
-    const [point] = ev.targetTouches;
-    touchInfo.end.x = point.pageX;
-    touchInfo.end.y = point.pageY;
-    const d = touchInfo.end.y - touchInfo.start.y;
-    if (!allow.value) {
-      return;
-    }
-    if (d >= distance) {
-      scrollBehavior(d, target);
-    }
-  }, { signal: stopController.signal });
-  target.addEventListener('keydown', (ev) => {
-    if (ev.key === 'ArrowDown' || ev.key === 'ArrowUp') {
-      ev.preventDefault();
+  const start = () => {
+    target.addEventListener('touchstart', (ev) => {
       if (!allow.value) {
         return;
       }
-      const dis = ev.key === 'ArrowDown' ? 1 : -1;
-      scroll(dis, target);
-    }
-  });
-  target.addEventListener('wheel', (ev) => {
-    ev.preventDefault();
-    if (!allow.value) {
-      return;
-    }
-    if (Math.abs(ev.deltaY) >= distance) {
-      scroll(ev.deltaY, target);
-    }
-  }, { passive: false });
-  return { stop, pause, resume };
+      ev.preventDefault();
+      if (!ev.targetTouches.length) {
+        return;
+      }
+      const [point] = ev.targetTouches;
+      touchInfo.start.x = point.pageX;
+      touchInfo.start.y = point.pageY;
+    }, { signal: stopController.signal, passive: false });
+    target.addEventListener('touchend', (ev) => {
+      if (!allow.value) {
+        return;
+      }
+      ev.preventDefault();
+      if (!ev.targetTouches.length) {
+        return;
+      }
+      const [point] = ev.targetTouches;
+      touchInfo.end.x = point.pageX;
+      touchInfo.end.y = point.pageY;
+      const d = touchInfo.end.y - touchInfo.start.y;
+      if (!allow.value) {
+        return;
+      }
+      if (d >= distance) {
+        scrollBehavior(d, target);
+      }
+    }, { signal: stopController.signal });
+    target.addEventListener('keydown', (ev) => {
+      if (ev.key === 'ArrowDown' || ev.key === 'ArrowUp') {
+        if (!allow.value) {
+          return;
+        }
+        ev.preventDefault();
+        const dis = ev.key === 'ArrowDown' ? 1 : -1;
+        scroll(dis, target);
+      }
+    });
+    target.addEventListener('wheel', (ev) => {
+      if (!allow.value) {
+        return;
+      }
+      ev.preventDefault();
+      if (Math.abs(ev.deltaY) >= distance) {
+        scroll(ev.deltaY, target);
+      }
+    }, { passive: false });
+  };
+  const resume = () => {
+    allow.value = true;
+  };
+  const pause = () => {
+    allow.value = false;
+  };
+  start();
+  return { stop, pause, resume, start };
 }
