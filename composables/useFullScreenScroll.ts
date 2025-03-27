@@ -11,8 +11,7 @@ export const scrollBehavior: Behavior = (distance: number, target: Window) => {
   const top = window.outerHeight;
   if (distance < 0) {
     target.scrollTo({ top: -top, behavior: 'smooth' });
-  }
- else {
+  } else {
     target.scrollTo({ top, behavior: 'smooth' });
   }
 };

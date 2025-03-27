@@ -1,8 +1,12 @@
 <script lang="ts" setup>
 import { vIntersectionObserver } from '@vueuse/components';
 
+const projectsData = useProjects();
+const active = ref(0);
+const actvieProject = computed(() => projectsData[active.value]);
 const { pause, resume } = useRootContext();
 
+let allowScroll = false;
 const onIntersectionObserver = ([entry]: IntersectionObserverEntry[]) => {
   if (entry.isIntersecting) {
     pause();
@@ -10,7 +14,23 @@ const onIntersectionObserver = ([entry]: IntersectionObserverEntry[]) => {
   }
   resume();
 };
-
+const onMouseEnter = () => {
+  allowScroll = false;
+};
+const onMouseLeave = () => {
+  allowScroll = true;
+};
+onMounted(() => {
+  if (!import.meta.client) {
+    return;
+  }
+  window.addEventListener('wheel', (ev) => {
+    ev.stopPropagation();
+    if (!allowScroll) {
+      ev.preventDefault();
+    }
+  }, { passive: false });
+});
 pause();
 </script>
 
@@ -24,29 +44,44 @@ pause();
     </div>
     <div class="projects__info">
       <div class="projects__info__wrapper">
-        <img class="projects__info__wrapper__image" src="/images/projects/klpbbs-wj.webp">
+        <img class="projects__info__wrapper__image" :src="actvieProject.image">
         <div class="projects__info__wrapper__text space-y-[25px]">
           <div class="projects__info__wrapper__text__stacks flex justify-end gap-2">
-            <div class="w-fit rounded px-2 py-1 text-white" style="background-color: rgba(255, 87, 51, 1);">
-              Next.js
-            </div>
-            <div class="w-fit rounded px-2 py-1 text-white" style="background-color: rgba(95, 77, 60, 1);">
-              Rust
+            <div v-for="(item, idx) of actvieProject.techStack" :key="idx" class="w-fit rounded px-2 py-1 text-white" :style="{ background: item.color }">
+              {{ item.title }}
             </div>
           </div>
           <p class="title text-right font-aliShuhei font-normal leading-none tracking-[10px] text-primary-500">
-            苦力怕论坛调查问卷系统
+            {{ actvieProject.title[0] }}
           </p>
           <p class="desc leading-7 tracking-[2px]">
-            为了让论坛用户能够更加简单、快速地填写问卷，苦力怕论坛 KLPBBS 与 瀚海工艺 Vastsea 团队的多位开发者共同合作，合力打造了一个无缝集成的问卷系统。通过这个系统，论坛用户可以使用已有的账号通过 KLPBBS API 快速登录，而无需重复注册或创建新的账号，极大地优化了用户体验。
+            {{ actvieProject.desc }}
           </p>
         </div>
       </div>
     </div>
     <div class="projects__timeline">
       <client-only>
-        <ui-timeline :active="1">
-          <ui-timeline-item :index="1">
+        <ui-timeline v-model:active="active" @mouse-enter="onMouseEnter" @mouse-leave="onMouseLeave">
+          <ui-timeline-item v-for="(project, idx) of projectsData" :key="idx" :index="idx">
+            <template v-if="project.position === 'top'" #topLabel="{ isActive }">
+              <p :data-active="isActive ? isActive : undefined" class="text-center font-aliShuhei text-[20px] data-[active=true]:text-primary-500">
+                {{ project.title[0] }}
+              </p>
+              <p class="text-center font-aliShuhei text-[20px]">
+                {{ project.title[1] }}
+              </p>
+            </template>
+            <template v-if="project.position === 'bottom'" #bottomLabel="{ isActive }">
+              <p :data-active="isActive ? isActive : undefined" class="text-center font-aliShuhei text-[20px] data-[active=true]:text-primary-500">
+                {{ project.title[0] }}
+              </p>
+              <p class="text-center font-aliShuhei text-[20px]">
+                {{ project.title[1] }}
+              </p>
+            </template>
+          </ui-timeline-item>
+          <!-- <ui-timeline-item :index="1">
             <template #bottomLabel="{ isActive }">
               <p :data-active="isActive ? isActive : undefined" class="text-center font-aliShuhei text-[20px] data-[active=true]:text-primary-500">
                 苦力怕论坛调查问卷系统
@@ -75,7 +110,7 @@ pause();
                 KLPBBS | SURVEY
               </p>
             </template>
-          </ui-timeline-item>
+          </ui-timeline-item> -->
         </ui-timeline>
       </client-only>
     </div>

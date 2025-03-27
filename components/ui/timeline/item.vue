@@ -78,6 +78,7 @@ onMounted(() => {
       display: none;
     }
   }
+  min-width: 150px;
 }
 @keyframes leftToRight {
   0% {
@@ -108,6 +109,8 @@ onMounted(() => {
       .icon {
         width: px2vw(30);
         height: px2vw(30);
+        min-width: 30px;
+        min-height: 30px;
         border-radius: 100%;
         margin: 0 auto;
         background: #fff;
