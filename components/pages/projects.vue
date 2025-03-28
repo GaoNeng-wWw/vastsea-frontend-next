@@ -47,9 +47,11 @@ pause();
         <img class="projects__info__wrapper__image" :src="actvieProject.image">
         <div class="projects__info__wrapper__text space-y-[25px]">
           <div class="projects__info__wrapper__text__stacks flex justify-end gap-2">
-            <div v-for="(item, idx) of actvieProject.techStack" :key="idx" class="w-fit rounded px-2 py-1 text-white" :style="{ background: item.color }">
-              {{ item.title }}
-            </div>
+            <ui-tech-stack-card 
+              v-for="tech in actvieProject.techStack" 
+              :key="tech" 
+              :name="tech"
+            />
           </div>
           <p class="title text-right font-aliShuhei font-normal leading-none tracking-[10px] text-primary-500">
             {{ actvieProject.title[0] }}
@@ -64,53 +66,27 @@ pause();
       <client-only>
         <ui-timeline v-model:active="active" @mouse-enter="onMouseEnter" @mouse-leave="onMouseLeave">
           <ui-timeline-item v-for="(project, idx) of projectsData" :key="idx" :index="idx">
-            <template v-if="project.position === 'top'" #topLabel="{ isActive }">
-              <p :data-active="isActive ? isActive : undefined" class="text-center font-aliShuhei text-[20px] data-[active=true]:text-primary-500">
-                {{ project.title[0] }}
-              </p>
-              <p class="text-center font-aliShuhei text-[20px]">
-                {{ project.title[1] }}
-              </p>
+            <template #topLabel="{ isActive }" v-if="(idx + 1) % 2 !== 0">
+              <div class="flex flex-col items-center justify-end min-h-[80px]">
+                <p :data-active="isActive ? isActive : undefined" class="text-center font-aliShuhei text-[20px] data-[active=true]:text-primary-500">
+                  {{ project.title[0] }}
+                </p>
+                <p class="text-center font-aliShuhei text-[20px]">
+                  {{ project.title[1] }}
+                </p>
+              </div>
             </template>
-            <template v-if="project.position === 'bottom'" #bottomLabel="{ isActive }">
-              <p :data-active="isActive ? isActive : undefined" class="text-center font-aliShuhei text-[20px] data-[active=true]:text-primary-500">
-                {{ project.title[0] }}
-              </p>
-              <p class="text-center font-aliShuhei text-[20px]">
-                {{ project.title[1] }}
-              </p>
-            </template>
-          </ui-timeline-item>
-          <!-- <ui-timeline-item :index="1">
-            <template #bottomLabel="{ isActive }">
-              <p :data-active="isActive ? isActive : undefined" class="text-center font-aliShuhei text-[20px] data-[active=true]:text-primary-500">
-                苦力怕论坛调查问卷系统
-              </p>
-              <p class="text-center font-aliShuhei text-[20px]">
-                KLPBBS | SURVEY
-              </p>
+            <template #bottomLabel="{ isActive }" v-if="(idx + 1) % 2 === 0">
+              <div class="flex flex-col items-center justify-start min-h-[80px]">
+                <p :data-active="isActive ? isActive : undefined" class="text-center font-aliShuhei text-[20px] data-[active=true]:text-primary-500">
+                  {{ project.title[0] }}
+                </p>
+                <p class="text-center font-aliShuhei text-[20px]">
+                  {{ project.title[1] }}
+                </p>
+              </div>
             </template>
           </ui-timeline-item>
-          <ui-timeline-item :index="2">
-            <template #topLabel="{ isActive }">
-              <p :data-active="isActive ? isActive : undefined" class="text-center font-aliShuhei text-[20px] data-[active=true]:text-primary-500">
-                苦力怕论坛调查问卷系统
-              </p>
-              <p class="text-center font-aliShuhei text-[20px]">
-                KLPBBS | SURVEY
-              </p>
-            </template>
-          </ui-timeline-item>
-          <ui-timeline-item :index="3">
-            <template #bottomLabel="{ isActive }">
-              <p :data-active="isActive ? isActive : undefined" class="text-center font-aliShuhei text-[20px] data-[active=true]:text-primary-500">
-                苦力怕论坛调查问卷系统
-              </p>
-              <p class="text-center font-aliShuhei text-[20px]">
-                KLPBBS | SURVEY
-              </p>
-            </template>
-          </ui-timeline-item> -->
         </ui-timeline>
       </client-only>
     </div>
