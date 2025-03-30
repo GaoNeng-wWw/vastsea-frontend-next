@@ -26,7 +26,7 @@ useHead({
 <template>
   <div
     v-element-visibility="() => !$route.hash ? $router.replace({ hash: '#rail-traffic' }) : ''"
-    class="introduction flex h-screen w-full flex-col overflow-hidden bg-[#F8F9FB]"
+    class="introduction relative flex h-screen w-full flex-col overflow-hidden bg-[#F8F9FB]"
   >
     <div class="introduction__wrapper flex size-full">
       <div class="introduction__wrapper__image relative shrink-0">

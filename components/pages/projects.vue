@@ -31,7 +31,6 @@ onMounted(() => {
     }
   }, { passive: false });
 });
-// pause();
 </script>
 
 <template>

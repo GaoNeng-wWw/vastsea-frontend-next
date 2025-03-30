@@ -1,19 +1,22 @@
 import { noop } from '@vueuse/core';
 
 export interface UseFullScreenScroll {
-  target: Window;
+  target: Ref<HTMLElement | null>;
   distance: number;
   scroll?: Behavior;
   client?: boolean;
 }
-export type Behavior = (distance: number, target: Window) => void;
-export const scrollBehavior: Behavior = (distance: number, target: Window) => {
-  const top = target.innerHeight;
-  // console.log(top);
+export type Behavior = (distance: number, target: HTMLElement | null) => void;
+export const scrollBehavior: Behavior = (distance: number, target: HTMLElement | null) => {
+  if (!target) {
+    return;
+  }
+  const top = target.offsetHeight;
   if (distance < 0) {
-    target.scrollBy({ top: -top, behavior: 'smooth' });
-  } else {
-    target.scrollBy({ top, behavior: 'smooth' });
+    target.scrollTo({ top: -top, behavior: 'smooth' });
+  }
+ else {
+    target.scrollTo({ top, behavior: 'smooth' });
   }
 };
 
@@ -32,7 +35,10 @@ export function useFullScreenScroll({ target, distance = 0, scroll = scrollBehav
     stopController = new AbortController();
   };
   const start = () => {
-    target.addEventListener('touchstart', (ev) => {
+    if (!target.value) {
+      return;
+    }
+    target.value.addEventListener('touchstart', (ev) => {
       if (!allow.value) {
         return;
       }
@@ -44,7 +50,7 @@ export function useFullScreenScroll({ target, distance = 0, scroll = scrollBehav
       touchInfo.start.x = point.pageX;
       touchInfo.start.y = point.pageY;
     }, { signal: stopController.signal, passive: false });
-    target.addEventListener('touchend', (ev) => {
+    target.value.addEventListener('touchend', (ev) => {
       if (!allow.value) {
         return;
       }
@@ -60,26 +66,26 @@ export function useFullScreenScroll({ target, distance = 0, scroll = scrollBehav
         return;
       }
       if (d >= distance) {
-        scrollBehavior(d, target);
+        scrollBehavior(d, target.value);
       }
     }, { signal: stopController.signal });
-    target.addEventListener('keydown', (ev) => {
+    target.value.addEventListener('keydown', (ev) => {
       if (ev.key === 'ArrowDown' || ev.key === 'ArrowUp') {
         if (!allow.value) {
           return;
         }
         ev.preventDefault();
         const dis = ev.key === 'ArrowDown' ? 1 : -1;
-        scroll(dis, target);
+        scroll(dis, target.value);
       }
     });
-    target.addEventListener('wheel', (ev) => {
+    target.value.addEventListener('wheel', (ev) => {
       if (!allow.value) {
         return;
       }
       ev.preventDefault();
       if (Math.abs(ev.deltaY) >= distance) {
-        scroll(ev.deltaY, target);
+        scroll(ev.deltaY, target.value);
       }
     }, { passive: false });
   };
@@ -89,6 +95,14 @@ export function useFullScreenScroll({ target, distance = 0, scroll = scrollBehav
   const pause = () => {
     allow.value = false;
   };
-  start();
+  watch(target, () => {
+    if (!target.value) {
+      return;
+    }
+    if (!import.meta.client) {
+      return;
+    }
+    start();
+  }, { immediate: true });
   return { stop, pause, resume, start };
 }
