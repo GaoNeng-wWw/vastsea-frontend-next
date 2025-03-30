@@ -38,6 +38,10 @@ const onWheel = useDebounceFn((ev: WheelEvent) => {
   if (d >= 0) {
     d = 0;
   }
+  const { left, width } = el.value.lastElementChild!.getBoundingClientRect();
+  if (step < 0 && (left + width) - (el.value.parentElement?.offsetWidth ?? 0) < 0) {
+    return;
+  }
   if (d <= -el.value.offsetWidth) {
     d = -el.value.offsetWidth;
   }
