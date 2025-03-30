@@ -8,15 +8,16 @@ export interface UseFullScreenScroll {
 }
 export type Behavior = (distance: number, target: Window) => void;
 export const scrollBehavior: Behavior = (distance: number, target: Window) => {
-  const top = window.outerHeight;
+  const top = target.innerHeight;
+  // console.log(top);
   if (distance < 0) {
-    target.scrollTo({ top: -top, behavior: 'smooth' });
+    target.scrollBy({ top: -top, behavior: 'smooth' });
   } else {
-    target.scrollTo({ top, behavior: 'smooth' });
+    target.scrollBy({ top, behavior: 'smooth' });
   }
 };
 
-export function useFullScreenScroll({ target, distance = 30, scroll = scrollBehavior, client = import.meta.client }: UseFullScreenScroll) {
+export function useFullScreenScroll({ target, distance = 0, scroll = scrollBehavior, client = import.meta.client }: UseFullScreenScroll) {
   const touchInfo = reactive({
     start: { x: 0, y: 0 },
     end: { x: 0, y: 0 },

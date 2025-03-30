@@ -6,7 +6,7 @@ const active = ref(0);
 const actvieProject = computed(() => projectsData[active.value]);
 const { pause, resume } = useRootContext();
 
-let allowScroll = false;
+let allowScroll = true;
 const onIntersectionObserver = ([entry]: IntersectionObserverEntry[]) => {
   if (entry.isIntersecting) {
     pause();
@@ -31,13 +31,13 @@ onMounted(() => {
     }
   }, { passive: false });
 });
-pause();
+// pause();
 </script>
 
 <template>
   <div class="projects">
     <div class="projects__title font-aliShuhei">
-      <h1 v-intersection-observer="onIntersectionObserver">
+      <h1>
         项目
       </h1>
       <p>Projects</p>
@@ -47,9 +47,9 @@ pause();
         <img class="projects__info__wrapper__image" :src="actvieProject.image">
         <div class="projects__info__wrapper__text space-y-[25px]">
           <div class="projects__info__wrapper__text__stacks flex justify-end gap-2">
-            <ui-tech-stack-card 
-              v-for="tech in actvieProject.techStack" 
-              :key="tech" 
+            <ui-tech-stack-card
+              v-for="tech in actvieProject.techStack"
+              :key="tech"
               :name="tech"
             />
           </div>
@@ -64,10 +64,10 @@ pause();
     </div>
     <div class="projects__timeline">
       <client-only>
-        <ui-timeline v-model:active="active" @mouse-enter="onMouseEnter" @mouse-leave="onMouseLeave">
+        <ui-timeline v-model:active="active" v-intersection-observer="onIntersectionObserver" @mouse-enter="onMouseEnter" @mouse-leave="onMouseLeave">
           <ui-timeline-item v-for="(project, idx) of projectsData" :key="idx" :index="idx">
-            <template #topLabel="{ isActive }" v-if="(idx + 1) % 2 !== 0">
-              <div class="flex flex-col items-center justify-end min-h-[80px]">
+            <template v-if="(idx + 1) % 2 !== 0" #topLabel="{ isActive }">
+              <div class="flex min-h-[80px] flex-col items-center justify-end">
                 <p :data-active="isActive ? isActive : undefined" class="text-center font-aliShuhei text-[20px] data-[active=true]:text-primary-500">
                   {{ project.title[0] }}
                 </p>
@@ -76,8 +76,8 @@ pause();
                 </p>
               </div>
             </template>
-            <template #bottomLabel="{ isActive }" v-if="(idx + 1) % 2 === 0">
-              <div class="flex flex-col items-center justify-start min-h-[80px]">
+            <template v-if="(idx + 1) % 2 === 0" #bottomLabel="{ isActive }">
+              <div class="flex min-h-[80px] flex-col items-center justify-start">
                 <p :data-active="isActive ? isActive : undefined" class="text-center font-aliShuhei text-[20px] data-[active=true]:text-primary-500">
                   {{ project.title[0] }}
                 </p>
