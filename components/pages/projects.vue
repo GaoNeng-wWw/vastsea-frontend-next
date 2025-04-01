@@ -43,9 +43,8 @@ onMounted(() => {
     </div>
     <div class="projects__info">
       <div class="projects__info__wrapper">
-        <img class="projects__info__wrapper__image" :src="actvieProject.image">
-        <div class="projects__info__wrapper__text space-y-[25px]">
-          <div class="projects__info__wrapper__text__stacks flex justify-end gap-2">
+        <div class="projects__info__wrapper__text items-start space-y-[25px]">
+          <div class="projects__info__wrapper__text__stacks flex justify-start gap-2">
             <ui-tech-stack-card
               v-for="tech in actvieProject.techStack"
               :key="tech"
@@ -59,6 +58,7 @@ onMounted(() => {
             {{ actvieProject.desc }}
           </p>
         </div>
+        <img class="projects__info__wrapper__image" :src="actvieProject.image">
       </div>
     </div>
     <div class="projects__timeline">
@@ -66,7 +66,7 @@ onMounted(() => {
         <ui-timeline v-model:active="active" v-intersection-observer="onIntersectionObserver" @mouse-enter="onMouseEnter" @mouse-leave="onMouseLeave">
           <ui-timeline-item v-for="(project, idx) of projectsData" :key="idx" :index="idx">
             <template v-if="(idx + 1) % 2 !== 0" #topLabel="{ isActive }">
-              <div class="flex min-h-[80px] flex-col items-center justify-end">
+              <div class="flex min-h-[80px] flex-col items-center justify-start">
                 <p :data-active="isActive ? isActive : undefined" class="text-center font-aliShuhei text-[20px] data-[active=true]:text-primary-500">
                   {{ project.title[0] }}
                 </p>
@@ -76,7 +76,7 @@ onMounted(() => {
               </div>
             </template>
             <template v-if="(idx + 1) % 2 === 0" #bottomLabel="{ isActive }">
-              <div class="flex min-h-[80px] flex-col items-center justify-start">
+              <div class="flex min-h-[80px] flex-col items-end justify-start">
                 <p :data-active="isActive ? isActive : undefined" class="text-center font-aliShuhei text-[20px] data-[active=true]:text-primary-500">
                   {{ project.title[0] }}
                 </p>
@@ -121,13 +121,17 @@ onMounted(() => {
       font-weight: 400;
     }
     padding-left: px2vw(67px);
+    height: fit-content;
+    margin-top: px2vw(74, vh);
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
   }
   &__info {
     &__wrapper {
       &__image {
         aspect-ratio: 3 / 2;
-        width: px2vw(769);
-        // height: px2vw(541, vh);
+        height: 100%;
       }
       &__text {
         .title {
@@ -143,17 +147,17 @@ onMounted(() => {
         width: 100%;
       }
       display: flex;
-      flex-wrap: wrap;
       justify-content: space-around;
+
       gap: px2vw(110px);
       width: 100%;
       height: 100%;
     }
     padding-inline: px2vw(167.7);
-    padding-top: px2vw(39, vh);
+    padding-block: px2vw(39, vh);
     width: 100%;
-    height: calc(px2vw(541, vh) - px2vw(145, vh));
-    flex: 1 0 content;
+    height: calc(px2vw(541, vh) - px2vw(145, vh) - px2vw(39, vh) - px2vw(39, vh));
+    flex: 1 0;
   }
   &__timeline{
     width: 100%;
@@ -173,8 +177,7 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   width: 100%;
-  min-height: 100vh;
-  padding-top: px2vw(122px);
+  height: 100vh;
   background: #fff;
 }
 </style>
